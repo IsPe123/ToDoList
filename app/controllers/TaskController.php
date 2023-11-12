@@ -3,12 +3,23 @@
     require_once('app/views/TaskView.php');
 
     class TaskController {
-        private $tareasModel;
-        private $tareasView;
+        private $TaskModel;
+        private $TaskView;
 
         public function __construct() {
-            $TaskModel = new TaskModel();
-            $TaskView = new TaskView();
+            $this->TaskModel = new TaskModel();
+            $this->TaskView = new TaskView();
         }
+
+        public function showHome() {
+            $tasks = $this->TaskModel->getTasks();
+            $this->TaskView->showHome($tasks);
+        }
+
+        public function deleteTask($id_task) {
+            $this->TaskModel->deleteTask($id_task);
+            header("Location: " . BASE_URL . "home");
+        }
+
     }
 ?>

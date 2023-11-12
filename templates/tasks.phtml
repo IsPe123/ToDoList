@@ -1,8 +1,12 @@
-<div>
+<article class="box-tasks">
     <?php foreach($tasks as $task) : ?>
-        <div>
+        <div class="tasks">
             <h2><?=$task->title?></h2>
             <p><?=$task->description?></p>
+            <p><?=$task->completed?></p>
+            <input type="button" value="Editar" id="">
+            <a href="home/delete/<?=$task->id_task?>">Eliminar</a>
+            <input type="button" value="Finalizar" >
         </div>
     <?php endforeach;?>
-</div>
+</article>

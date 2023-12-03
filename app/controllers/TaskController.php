@@ -21,5 +21,17 @@
             header("Location: " . BASE_URL . "home");
         }
 
+        public function finalizeTask($id_task) {
+            $this->TaskModel->finalizeTask($id_task);
+            header("Location: " . BASE_URL . "home");
+        }
+
+        public function addTask() {
+            $title = $_POST['title'];
+            $description = $_POST['description'];
+            $this->TaskModel->addTask($title, $description);
+            header("Location: " . BASE_URL . "home");
+        }
+
     }
 ?>

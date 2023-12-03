@@ -3,10 +3,10 @@
         <div class="tasks">
             <h2><?=$task->title?></h2>
             <p><?=$task->description?></p>
-            <p><?=$task->completed?></p>
-            <input type="button" value="Editar" id="">
+            <p><?=$task->finalize?></p>
+            <input type="button" value="Editar">
             <a href="home/delete/<?=$task->id_task?>">Eliminar</a>
-            <input type="button" value="Finalizar" >
+            <a href="home/finalize/<?=$task->id_task?>">Finalizar</a>
         </div>
     <?php endforeach;?>
 </article>

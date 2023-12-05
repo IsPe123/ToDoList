@@ -11,9 +11,20 @@
             $this->TaskView = new TaskView();
         }
 
+        private function checkSession() {
+            session_start();
+            if (empty($_SESSION['email'])) {
+                header("Location: " . BASE_URL . "login");
+            } else {
+                return true;
+            }
+        }
+
         public function showHome() {
-            $tasks = $this->TaskModel->getTasks();
-            $this->TaskView->showHome($tasks);
+            if($this->checkSession()) {
+                $tasks = $this->TaskModel->getTasks();
+                $this->TaskView->showHome($tasks);
+            }
         }
 
         public function deleteTask($id_task) {

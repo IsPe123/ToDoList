@@ -12,14 +12,28 @@
         }
 
         public function getUser($email) {
-            $query = $this->db->prepare('SELECT * FROM users WHERE email = ?');
+            $query = $this->db->prepare('SELECT * FROM users WHERE email = ? ');
             $query->execute([$email]);
             $user = $query->fetchAll(PDO::FETCH_OBJ);
-
             if (count($user) > 0) {
                 return $user[0];
             }
             return null;
+        }
+
+        public function getEmail($email) {
+            $query = $this->db->prepare("SELECT email FROM users WHERE email = ? ");
+            $query->execute([$email]);
+            $user = $query->fetchAll(PDO::FETCH_OBJ);
+            var_dump($user);
+            if (count($user) > 0) {
+                return $user[0];
+            }
+            return null;        }
+
+        public function createNewUser($name, $userEmail, $userPassword) {
+            $query = $this->db->prepare('INSERT INTO users (email, password, name) VALUES (?, ?, ?)');
+            $query->execute([$name, $userEmail, $userPassword]);
         }
 
     }

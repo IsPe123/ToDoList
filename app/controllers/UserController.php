@@ -11,12 +11,32 @@
             $this->UserView = new UserView();
         }
 
-        public function showLogin($message = ''){
-            $this->UserView->showLogin();
+        public function showLogin($message = '') {
+            $this->UserView->showLogin($message = '');
         }
 
-        public function showRegister(){
-            $this->UserView->showRegister();
+        public function showRegister($message = '') {
+            $this->UserView->showRegister($message = '');
+        }
+
+        //register falta terminar
+        public function register() {
+            if(!empty($_POST['email']) && (!empty($_POST['password']) && !empty($_POST['name']))){
+                $name = $_POST['name'];
+                $userEmail = $_POST['email'];
+                $userPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
+            }
+            //seguir por aca
+            $email = $this->UserModel->getEmail($userEmail);
+            var_dump($email);
+            if ($email == null) {
+                $this->UserModel->createNewUser($name, $userEmail, $userPassword);
+                if ($this->verifyUser($userEmail, $userPassword)) {
+                    header("Location: " . BASE_URL . "home");
+                }
+            } else {
+                $this->UserView->showRegister('Algo está mal');
+            }
         }
 
         public function verify() {
@@ -25,16 +45,16 @@
             if ($this->verifyUser($userEmail, $userPassword)) {
                 header("Location: " . BASE_URL . "home");
             } else {
-                $this->showLogin('Introduce bien los datos');
+                $this->UserView->showLogin('Introduce bien los datos');
             }
         }
 
         private function verifyUser($userEmail, $userPassword) {
             $user = $this->UserModel->getUser($userEmail);
-            if (!empty($user) && password_verify($userPassword, $user->pass)) {
+            if (!empty($user) && password_verify($userPassword, $user->password)) {
                 session_start();
-                $_SESSION['id'] = $user->id;
                 $_SESSION['email'] = $user->email;
+                $_SESSION['id'] = $user->id_user;
                 return true;
             }
             return false;
@@ -43,7 +63,7 @@
         public function logout() {
             session_start();
             session_destroy();
-            header("Location: " . BASE_URL . "home");
+            header("Location: " . BASE_URL . "login");
         }
 
     }

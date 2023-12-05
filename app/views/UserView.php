@@ -3,11 +3,11 @@
     class UserView {
         public function __construct() {}
 
-        public function showLogin() {
+        public function showLogin($message = '') {
             require './templates/login.phtml';
         }
 
-        public function showRegister() {
+        public function showRegister($message = '') {
             require './templates/register.phtml';
         }
     }

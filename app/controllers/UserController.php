@@ -33,7 +33,6 @@
                 } else {
                     $this->UserView->showRegister('Email ya registrado, intenta con otro o inicia sesion');
                 }
-
             }
         }
 

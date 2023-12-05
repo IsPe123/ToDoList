@@ -21,19 +21,20 @@
             return null;
         }
 
-        public function getEmail($email) {
+        public function existEmail($email) {
             $query = $this->db->prepare("SELECT email FROM users WHERE email = ? ");
             $query->execute([$email]);
-            $user = $query->fetchAll(PDO::FETCH_OBJ);
-            var_dump($user);
-            if (count($user) > 0) {
-                return $user[0];
+            $response = $query->fetch(PDO::FETCH_OBJ);
+            if($response) {
+                return true;
             }
-            return null;        }
+            return false;
+        }
 
         public function createNewUser($name, $userEmail, $userPassword) {
-            $query = $this->db->prepare('INSERT INTO users (email, password, name) VALUES (?, ?, ?)');
+            $query = $this->db->prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)');
             $query->execute([$name, $userEmail, $userPassword]);
+            return $query->rowCount();
         }
 
     }

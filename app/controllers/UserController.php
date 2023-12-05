@@ -25,17 +25,15 @@
                 $name = $_POST['name'];
                 $userEmail = $_POST['email'];
                 $userPassword = password_hash($_POST['password'], PASSWORD_BCRYPT);
-            }
-            //seguir por aca
-            $email = $this->UserModel->getEmail($userEmail);
-            var_dump($email);
-            if ($email == null) {
-                $this->UserModel->createNewUser($name, $userEmail, $userPassword);
-                if ($this->verifyUser($userEmail, $userPassword)) {
-                    header("Location: " . BASE_URL . "home");
+
+                $response = $this->UserModel->existEmail($userEmail);
+                if(!$response) {
+                    $this->UserModel->createNewUser($name, $userEmail, $userPassword);
+                    $this->UserView->showLogin('¡Registrado con exito! Inicia sesion.');
+                } else {
+                    $this->UserView->showRegister('Email ya registrado, intenta con otro o inicia sesion');
                 }
-            } else {
-                $this->UserView->showRegister('Algo está mal');
+
             }
         }
 
